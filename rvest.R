@@ -90,5 +90,5 @@ sub=c("all","terran","protoss","zerg","2011","star","msl","pro")
 
 colnames(data)=sub
 
-맨위로
+
 
