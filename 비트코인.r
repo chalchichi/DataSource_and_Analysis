@@ -1,3 +1,7 @@
+#package
+install.packages("randomForest")
+library(randomForest)
+
 #data input
 name=read.table("name.txt",header=F,stringsAsFactors = F)
 for(i in 1:length(name[,1])){
@@ -36,4 +40,9 @@ for(i in (1:length(name$V1))){
 close=close[,-1]
 close=as.data.frame(close)
 colnames(close)=name$V1
-close
+
+
+
+rf=randomForest(SNT~.,data=close,mtry=6)
+x11()
+varImpPlot(rf)
