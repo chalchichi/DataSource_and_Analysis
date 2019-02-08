@@ -20,7 +20,7 @@ for(i in 1:(length(name$V1)-1)){
   )
 }
 
-#make close price dataFrame
+#make close price dataFrame by minimum length
 len=c()
 for(i in (1:length(name$V1))){
   len=c(len,length(l[[i]]$CLOSE))
