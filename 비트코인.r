@@ -3,14 +3,18 @@ install.packages("randomForest")
 library(randomForest)
 
 #data input
+l=list()
 name=read.table("name.txt",header=F,stringsAsFactors = F)
 for(i in 1:length(name[,1])){
-path=paste0(name[i,1],"/",name[i,1],"_price.txt")
-dat=read.table(path)
-dat=dat[-1]
-dat=dat[length(dat[,1]):1,]
-l[[i]]=dat
+  path=paste0(name[i,1],"/",name[i,1],"_price.txt")
+  dat=read.table(path,header=TRUE)
+  dat=dat[-1]
+  dat=dat[length(dat[,1]):1,]
+  l[[i]]=dat
 }
+
+
+
 
 #correlation
 for(i in 1:(length(name$V1)-1)){
@@ -23,6 +27,8 @@ for(i in 1:(length(name$V1)-1)){
   )
   )
 }
+
+
 
 #make close price dataFrame by minimum length
 len=c()
@@ -40,9 +46,26 @@ for(i in (1:length(name$V1))){
 close=close[,-1]
 close=as.data.frame(close)
 colnames(close)=name$V1
+close
+
+#randomForset
+#mtry=sqrt(28)
+rf=randomForest(GNT~.,data=close,mtry=6)
 
 
+#a=The name of the bit coin
+#a는 문자열로 입력""
+#most폴더에 가장 관련도 높은 10개의 데이터를 most폴더에저장
 
-rf=randomForest(SNT~.,data=close,mtry=6)
-x11()
-varImpPlot(rf)
+setwd("C:/Users/inha/Desktop/most")
+findcol=function(a){
+          a_index=which(name$V1==a)-1
+          im=rf$importance  
+          im=append(im,0,after=a_index)
+          most_index=head(order(im,decreasing=TRUE),10)
+          for(i in 1:10){
+            write.csv(l[[most_index[i]]],paste0(name$V1[most_index[i]],".csv"))            
+            }
+          }
+
+#example findcol("GNT")
