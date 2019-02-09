@@ -55,17 +55,19 @@ rf=randomForest(GNT~.,data=close,mtry=6)
 
 #a=The name of the bit coin
 #a는 문자열로 입력""
-#most폴더에 가장 관련도 높은 10개의 데이터를 most폴더에저장
+#most폴더에 가장 관련도 높은 10개의 데이터와 대상 비트코인를 most폴더에저장
 
 setwd("C:/Users/inha/Desktop/most")
 findcol=function(a){
-          a_index=which(name$V1==a)-1
+          a_index=which(name$V1==a)
           im=rf$importance  
-          im=append(im,0,after=a_index)
+          im=append(im,0,after=a_index-1)
           most_index=head(order(im,decreasing=TRUE),10)
           for(i in 1:10){
-            write.csv(l[[most_index[i]]],paste0(name$V1[most_index[i]],".csv"))            
+            write.csv(l[[most_index[i]]],paste0(name$V1[most_index[i]],".csv"))
+            write.csv(l[[a_index]],paste0(a,".csv"))
             }
           }
 
-#example findcol("GNT")
+#example 
+findcol("GNT")
