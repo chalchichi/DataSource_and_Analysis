@@ -50,7 +50,7 @@ close
 
 #randomForset
 #mtry=sqrt(28)
-rf=randomForest(GNT~.,data=close,mtry=6)
+rf=randomForest(AE~.,data=close,mtry=6)
 
 
 #a=The name of the bit coin
@@ -67,7 +67,17 @@ findcol=function(a){
             write.csv(l[[most_index[i]]],paste0(name$V1[most_index[i]],".csv"))
             write.csv(l[[a_index]],paste0(a,".csv"))
             }
-          }
+        }
 
 #example 
-findcol("GNT")
+findcol("AE")
+
+
+#vs corelation
+rf$importance
+cl=c()
+for(i in 2:29){
+  cl=c(cl,cor(close[,1],close[,i]))
+   }
+head(order(cl,decreasing=TRUE),10)
+head(order(rf$importance,decreasing=TRUE),10)
