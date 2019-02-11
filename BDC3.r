@@ -160,6 +160,6 @@ tuneplot(xgb_tune5)
   method = "xgbTree",
   verbose = TRUE
 ))
-xgb.plot.tree(model = myegb$finalModel)
+predict(xgb_model,test)
 
 
