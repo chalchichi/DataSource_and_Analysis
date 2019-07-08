@@ -29,24 +29,46 @@ class logfilter:
         window.title("Log Filter")
         window.geometry("640x400+100+100")
         window.resizable(False, False)
-        button1 = Button(window, text="Select log", overrelief="solid", width=15, command=self.filesearch,
+        button1 = Button(window, text="Select dir", overrelief="solid", width=15, command=self.filesearch,
                                  repeatdelay=1000, repeatinterval=100)
 
         button2 = Button(window, text="Filtering log", overrelief="solid", width=15, command=self.run,
                                  repeatdelay=1000, repeatinterval=100)
         button3 = Button(window, text="Save log", overrelief="solid", width=15, command=self.makedataframe,
                                  repeatdelay=1000, repeatinterval=100)
+        button4 = Button(window, text="Select date", overrelief="solid", width=15, command=self.selectfile,
+                         repeatdelay=1000, repeatinterval=100)
         self.ch_var = StringVar()
         chk = Checkbutton(window, text='Save logs with seconds', variable=self.ch_var, onvalue='Y',
                           offvalue='N')
-        chk.pack()
-        button1.pack()
-        button2.pack()
+        self.year = StringVar()
+        textbox1 = ttk.Entry(window, width=20, textvariable=self.year)
+        self.month = StringVar()
+        textbox2 = ttk.Entry(window, width=20, textvariable=self.month)
+        self.date = StringVar()
+        textbox3 = ttk.Entry(window, width=20, textvariable=self.date)
+        lbl1 = Label(window, text="Year")
+        lbl2 = Label(window, text="Month")
+        lbl3 = Label(window, text="Date")
+        lbl1.grid(column=2,row=4)
+        lbl2.grid(column=3,row=4)
+        lbl3.grid(column=4,row=4)
+        textbox1.grid(column=2,row=5)
+        textbox2.grid(column=3,row=5)
+        textbox3.grid(column=4,row=5)
+        button1.grid(column=2,row=2)
+        button2.grid(column=2,row=3)
+        button3.grid(column=7, row=7)
+        button4.grid(column=5, row=5)
+        chk.grid(column=2,row=7)
         window.mainloop()
 
     def filesearch(self):
-        filename = filedialog.askdirectory()
-        self.data = open(filename)
+        self.filename = filedialog.askdirectory()
+    def selectfile(self):
+        file=self.filename +"/"+"AcmAdapter-"+self.year.get()+"-"+self.month.get()+"-"+self.date.get()+".log"
+        print(file)
+        self.data = open(file)
     def parsing(self):
         i = 0
         try:
@@ -94,10 +116,10 @@ class logfilter:
         df2 = df.iloc[self.tis,]
         c=self.ch_var.get()
         if c=="Y":
-            df.to_csv("log.csv", index=None)
-            df2.to_csv("log_sec_exist.csv", index=None)
+            df.to_csv(self.filename+"/log.csv", index=None)
+            df2.to_csv(self.filename+"/log_sec_exist.csv", index=None)
         else:
-            df.to_csv("log.csv", index=None)
+            df.to_csv(self.filename+"/log.csv", index=None)
     def checkstart(self):
         self.colorder.append("cycle")
         for i in range(len(self.msg) - 1):
