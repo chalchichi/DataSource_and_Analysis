@@ -5,7 +5,7 @@ from IPython.display import display as dp
 import numpy as np
 import re
 from tkinter import filedialog
-from itertools import combinations
+
 
 
 reg = "[(]+[0-9]+\.[0-9]+s+[)]"
